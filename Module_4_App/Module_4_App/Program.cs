@@ -45,6 +45,17 @@ class Program
             {
                 Console.WriteLine("Song Title: {0} \n\t Written by {1}, Genre: {2}", song.SongName, song.ArtistName, song.GenreName);
             }
+
+            Artist TheYoungest = context.Artists.OrderBy(artist => artist.DateOfBirth).Last();
+            Console.WriteLine($"The youngest singer is {TheYoungest.Name}, his date of birth is: {TheYoungest.DateOfBirth.ToString()}");
+            IQueryable<Song> songs = context.Songs.Where(s => s.ReleaseDate <= TheYoungest.DateOfBirth);
+            int count = songs.Count();
+            Console.WriteLine($"There are {count} songs written before {TheYoungest.DateOfBirth.ToString()}");
+            Console.WriteLine("They are: ");
+            foreach(Song song in songs)
+            {
+                Console.WriteLine(song.Title);
+            }
         }
     }
 }
